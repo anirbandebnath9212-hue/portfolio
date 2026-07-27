@@ -12,9 +12,9 @@ export default function Navbar() {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY && currentScrollY > 80) {
-        setHidden(true); // scrolling down
+        setHidden(true);
       } else {
-        setHidden(false); // scrolling up
+        setHidden(false);
       }
 
       setLastScrollY(currentScrollY);
@@ -40,8 +40,10 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-3">
           <span className="text-primary font-bold text-xl">AD.</span>
-          <span className="hidden md:block text-xs tracking-widest
-            text-slate-600 dark:text-slate-400">
+          <span
+            className="hidden md:block text-xs tracking-widest
+            text-slate-600 dark:text-slate-400"
+          >
             FULL-STACK ENGINEER
           </span>
         </div>
@@ -60,6 +62,7 @@ export default function Navbar() {
             </a>
           ))}
 
+          {/* Dark Mode */}
           <button
             onClick={toggleDarkMode}
             className="w-9 h-9 flex items-center justify-center rounded
@@ -70,14 +73,19 @@ export default function Navbar() {
             {isDark ? "🌙" : "☀️"}
           </button>
 
-          <button
+          {/* Resume */}
+          <a
+            href="/portfolio/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-4 py-2 text-sm font-semibold rounded border
               text-slate-800 dark:text-slate-100
               border-border-muted
-              hover:bg-slate-100 dark:hover:bg-surface transition"
+              hover:bg-slate-100 dark:hover:bg-surface
+              transition"
           >
             Resume
-          </button>
+          </a>
         </nav>
 
         {/* Mobile Buttons */}
@@ -104,8 +112,10 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden border-t border-border-muted
-          bg-white dark:bg-background-dark">
+        <div
+          className="md:hidden border-t border-border-muted
+          bg-white dark:bg-background-dark"
+        >
           <nav className="px-6 py-6 flex flex-col gap-4">
             {["projects", "about", "contact"].map((item) => (
               <a
@@ -120,14 +130,20 @@ export default function Navbar() {
               </a>
             ))}
 
-            <button
+            {/* Mobile Resume */}
+            <a
+              href="/portfolio/Anirban_Debnath_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-4 px-4 py-2 text-sm font-semibold rounded border
+                text-center
                 text-slate-800 dark:text-slate-100
                 border-border-muted
-                hover:bg-slate-100 dark:hover:bg-surface transition"
+                hover:bg-slate-100 dark:hover:bg-surface
+                transition"
             >
               Resume
-            </button>
+            </a>
           </nav>
         </div>
       )}
