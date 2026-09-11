@@ -1,66 +1,172 @@
+import {
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { useRef } from "react";
+
 export default function Contact() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 85%", "end 30%"],
+  });
+
+  const contentY = useTransform(
+    scrollYProgress,
+    [0, 0.5],
+    [40, 0]
+  );
+
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.35],
+    [0, 1]
+  );
+
+  const labelX = useTransform(
+    scrollYProgress,
+    [0, 0.35],
+    ["30%", "0%"]
+  );
+
+  const labelOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.25],
+    [0, 1]
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="contact"
-      className="py-32 bg-white dark:bg-background-dark"
+      className="
+        py-24
+        bg-white
+        dark:bg-background-dark
+        overflow-hidden
+      "
     >
       <div className="max-w-[1200px] mx-auto px-6">
 
-        {/* Section label */}
-        <p
-          className="text-xs uppercase tracking-[0.3em] mb-10
-          text-slate-500 dark:text-slate-500"
+        {/* Section Label */}
+        <motion.div
+          style={{
+            x: labelX,
+            opacity: labelOpacity,
+          }}
+          className="
+            flex
+            items-center
+            gap-3
+            mb-10
+          "
         >
-          04 // Contact
-        </p>
+          <span
+            className="
+              w-8
+              h-px
+              bg-primary
+              shadow-[0_0_10px_rgba(37,99,235,0.5)]
+            "
+          />
 
-        <div className="max-w-2xl">
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-6
-            text-slate-900 dark:text-slate-100"
+          <p
+            className="
+              text-xs
+              uppercase
+              tracking-[0.35em]
+              font-medium
+              text-primary
+            "
           >
-            Let’s build something meaningful
+            04 // Contact
+          </p>
+        </motion.div>
+
+        {/* Contact Content */}
+        <motion.div
+          style={{
+            y: contentY,
+            opacity: contentOpacity,
+          }}
+          className="max-w-3xl"
+        >
+          <h2
+            className="
+              text-4xl
+              md:text-6xl
+              font-bold
+              tracking-tight
+              text-slate-900
+              dark:text-slate-100
+            "
+          >
+            Let’s build something
+            <span className="text-primary"> meaningful.</span>
           </h2>
 
           <p
-            className="text-lg mb-10 leading-relaxed
-            text-slate-600 dark:text-slate-400"
+            className="
+              mt-6
+              max-w-2xl
+              text-lg
+              leading-relaxed
+              text-slate-600
+              dark:text-slate-400
+            "
           >
-            I’m open to internships, full-time roles, and meaningful
-            collaborations. If you’re building something interesting
-            or want to discuss engineering problems, feel free to reach out.
+            I’m always interested in discussing new projects,
+            ideas, and opportunities where I can build useful
+            and scalable products.
           </p>
 
-          <div className="flex flex-wrap gap-6 text-sm font-semibold">
+          <div className="mt-8 flex flex-wrap gap-4">
+
             <a
-              href="mailto:anirbandebnath9212@gmail.com"
-              className="text-slate-800 dark:text-slate-100
-              hover:text-primary transition"
+              href="mailto:your-email@example.com"
+              className="
+                px-6
+                py-3
+                rounded-lg
+                bg-primary
+                text-white
+                text-sm
+                font-semibold
+                hover:opacity-90
+                hover:shadow-[0_0_30px_rgba(37,99,235,0.25)]
+                transition-all
+                duration-300
+              "
             >
-              Email →
+              Get in Touch →
             </a>
 
             <a
               href="https://github.com/anirbandebnath9212-hue"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-800 dark:text-slate-100
-              hover:text-primary transition"
+              className="
+                px-6
+                py-3
+                rounded-lg
+                border
+                border-border-muted
+                text-sm
+                font-semibold
+                text-slate-800
+                dark:text-slate-100
+                hover:border-primary
+                hover:text-primary
+                transition
+              "
             >
-              GitHub →
+              GitHub ↗
             </a>
 
-            <a
-              href="https://linkedin.com/in/your-linkedin"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-800 dark:text-slate-100
-              hover:text-primary transition"
-            >
-              LinkedIn →
-            </a>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>
