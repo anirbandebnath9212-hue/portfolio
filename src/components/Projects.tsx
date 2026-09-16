@@ -9,24 +9,26 @@ import { useEffect, useRef, useState } from "react";
 const projects = [
   {
     id: "01",
-    title: "Restaurant Landing Page",
+    title: "Food Delivery App",
     description:
-      "A modern luxury restaurant website built to deliver an elegant and immersive dining experience across desktop and mobile devices.",
+      "A full-stack food delivery platform built with React, Node.js, Express, and MongoDB, featuring restaurant browsing, food ordering, cart management, authentication, checkout, and order tracking.",
     problem:
-      "Creating a premium restaurant experience that communicates the brand, menu, atmosphere, and dining experience through a visually engaging interface.",
+      "Building a complete food ordering experience that connects customers, restaurants, food items, carts, and orders into one full-stack application.",
     tech: [
       "React",
       "Vite",
       "Tailwind CSS",
-      "JavaScript",
+      "Node.js",
+      "Express",
+      "MongoDB",
       "Vercel",
     ],
-    image: "/portfolio/restaurant-preview.png",
+    image: "/portfolio/food-delivery-preview.png",
     links: {
       github:
-        "https://github.com/anirbandebnath9212-hue/restaurant-landing-page",
+        "https://github.com/anirbandebnath9212-hue/food-delivery-app",
       live:
-        "https://restaurant-landing-page-seven-theta.vercel.app/",
+        "https://food-delivery-app-topaz-eight.vercel.app/",
     },
   },
 
@@ -56,22 +58,24 @@ const projects = [
 
   {
     id: "03",
-    title: "Medical Inventory System",
+    title: "Restaurant Landing Page",
     description:
-      "A medical inventory management system designed to organize products, inventory data, and day-to-day shop operations.",
+      "A modern luxury restaurant website built to deliver an elegant and immersive dining experience across desktop and mobile devices.",
     problem:
-      "Managing medical inventory efficiently while keeping product information organized and accessible.",
+      "Creating a premium restaurant experience that communicates the brand, menu, atmosphere, and dining experience through a visually engaging interface.",
     tech: [
       "React",
-      "TypeScript",
-      "Node.js",
-      "Express",
-      "Database",
+      "Vite",
+      "Tailwind CSS",
+      "JavaScript",
+      "Vercel",
     ],
-    image: null,
+    image: "/portfolio/restaurant-preview.png",
     links: {
-      github: "#",
-      live: "#",
+      github:
+        "https://github.com/anirbandebnath9212-hue/restaurant-landing-page",
+      live:
+        "https://restaurant-landing-page-seven-theta.vercel.app/",
     },
   },
 ];
@@ -90,8 +94,8 @@ function ProjectCard({
   const total = projects.length;
 
   const start = index / total;
-  const enter = start + 0.10;
-  const settle = start + 0.30;
+  const enter = start + 0.1;
+  const settle = start + 0.3;
 
   // Project enters slowly from below
   const y = useTransform(
@@ -112,6 +116,23 @@ function ProjectCard({
     scrollYProgress,
     [start, settle],
     [0.97, 1]
+  );
+
+  /*
+    Only the currently active project can receive clicks.
+
+    This prevents invisible cards behind the current card
+    from catching clicks on buttons/images.
+  */
+  const pointerEvents = useTransform(
+    scrollYProgress,
+    (progress:number) => {
+      const isVisible =
+        progress >= start &&
+        progress < Math.min(1, start + 0.3);
+
+      return isVisible ? "auto" : "none";
+    }
   );
 
   // Close image with Escape key
@@ -146,13 +167,14 @@ function ProjectCard({
 
   return (
     <>
-      {/* Project Card */}
+      {/* PROJECT CARD */}
       <motion.div
         style={{
           y,
           opacity,
           scale,
           zIndex: index + 1,
+          pointerEvents,
         }}
         className="
           absolute
@@ -177,8 +199,7 @@ function ProjectCard({
             shadow-[0_25px_90px_rgba(0,0,0,0.20)]
           "
         >
-
-          {/* Project Image */}
+          {/* PROJECT IMAGE */}
           {project.image ? (
             <div
               className="
@@ -194,6 +215,7 @@ function ProjectCard({
                 src={project.image}
                 alt={`${project.title} preview`}
                 className="
+                  block
                   w-full
                   h-[190px]
                   sm:h-[220px]
@@ -206,7 +228,7 @@ function ProjectCard({
                 "
               />
 
-              {/* Hover hint */}
+              {/* HOVER MESSAGE */}
               <div
                 className="
                   absolute
@@ -229,6 +251,7 @@ function ProjectCard({
                 Click to view
               </div>
 
+              {/* IMAGE OVERLAY */}
               <div
                 className="
                   absolute
@@ -265,10 +288,9 @@ function ProjectCard({
             </div>
           )}
 
-          {/* Content */}
+          {/* CONTENT */}
           <div className="p-5 md:p-6">
-
-            {/* Project Number */}
+            {/* PROJECT NUMBER */}
             <span
               className="
                 text-xs
@@ -279,7 +301,7 @@ function ProjectCard({
               PROJECT_{project.id}
             </span>
 
-            {/* Title */}
+            {/* TITLE */}
             <h3
               className="
                 mt-2
@@ -294,7 +316,7 @@ function ProjectCard({
               {project.title}
             </h3>
 
-            {/* Description */}
+            {/* DESCRIPTION */}
             <p
               className="
                 max-w-3xl
@@ -309,7 +331,7 @@ function ProjectCard({
               {project.description}
             </p>
 
-            {/* Problem */}
+            {/* PROBLEM */}
             <div
               className="
                 mt-4
@@ -344,7 +366,7 @@ function ProjectCard({
               </p>
             </div>
 
-            {/* Bottom */}
+            {/* TECHNOLOGIES + BUTTONS */}
             <div
               className="
                 mt-5
@@ -356,8 +378,7 @@ function ProjectCard({
                 gap-4
               "
             >
-
-              {/* Technologies */}
+              {/* TECHNOLOGIES */}
               <div className="flex flex-wrap gap-1.5">
                 {project.tech.map((tech) => (
                   <span
@@ -379,30 +400,31 @@ function ProjectCard({
                 ))}
               </div>
 
-              {/* Links */}
+              {/* LINKS */}
               <div className="flex gap-3 shrink-0">
-
-                <a
-                  href={project.links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    px-4
-                    py-2
-                    rounded-lg
-                    border
-                    border-border-muted
-                    text-xs
-                    font-semibold
-                    text-slate-800
-                    dark:text-slate-100
-                    hover:border-primary
-                    hover:text-primary
-                    transition
-                  "
-                >
-                  GitHub ↗
-                </a>
+                {project.links.github !== "#" && (
+                  <a
+                    href={project.links.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+                      px-4
+                      py-2
+                      rounded-lg
+                      border
+                      border-border-muted
+                      text-xs
+                      font-semibold
+                      text-slate-800
+                      dark:text-slate-100
+                      hover:border-primary
+                      hover:text-primary
+                      transition
+                    "
+                  >
+                    GitHub ↗
+                  </a>
+                )}
 
                 {project.links.live !== "#" && (
                   <a
@@ -424,15 +446,13 @@ function ProjectCard({
                     Live Demo ↗
                   </a>
                 )}
-
               </div>
             </div>
-
           </div>
         </div>
       </motion.div>
 
-      {/* Fullscreen Image Viewer */}
+      {/* FULLSCREEN IMAGE VIEWER */}
       <AnimatePresence>
         {imageOpen && project.image && (
           <motion.div
@@ -455,8 +475,6 @@ function ProjectCard({
             "
             onClick={() => setImageOpen(false)}
           >
-
-            {/* Full Screenshot */}
             <motion.img
               src={project.image}
               alt={`${project.title} full preview`}
@@ -488,7 +506,6 @@ function ProjectCard({
               "
             />
 
-            {/* Close Hint */}
             <div
               className="
                 absolute
@@ -510,7 +527,6 @@ function ProjectCard({
             >
               Click image or press Esc to close
             </div>
-
           </motion.div>
         )}
       </AnimatePresence>
@@ -526,7 +542,6 @@ export default function Projects() {
     offset: ["start start", "end end"],
   });
 
-  // Section label
   const labelOpacity = useTransform(
     scrollYProgress,
     [0, 0.04, 0.95, 1],
@@ -544,8 +559,7 @@ export default function Projects() {
         dark:bg-background-dark
       "
     >
-
-      {/* Sticky Area */}
+      {/* STICKY PROJECT AREA */}
       <div
         className="
           sticky
@@ -554,8 +568,7 @@ export default function Projects() {
           overflow-hidden
         "
       >
-
-        {/* Header */}
+        {/* SECTION HEADER */}
         <motion.div
           style={{
             opacity: labelOpacity,
@@ -571,8 +584,6 @@ export default function Projects() {
             px-6
           "
         >
-
-          {/* Label */}
           <div
             className="
               flex
@@ -615,12 +626,10 @@ export default function Projects() {
           >
             Things I’ve built.
           </h2>
-
         </motion.div>
 
-        {/* Project Cards */}
+        {/* PROJECT CARDS */}
         <div className="relative w-full h-full">
-
           {projects.map((project, index) => (
             <ProjectCard
               key={project.id}
@@ -629,10 +638,9 @@ export default function Projects() {
               scrollYProgress={scrollYProgress}
             />
           ))}
-
         </div>
 
-        {/* Progress Dots */}
+        {/* PROGRESS DOTS */}
         <div
           className="
             absolute
@@ -674,7 +682,6 @@ export default function Projects() {
             "
           />
         </div>
-
       </div>
     </section>
   );
